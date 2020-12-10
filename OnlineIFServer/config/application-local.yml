@@ -1,0 +1,131 @@
+#spring.profiles.active: local
+---
+spring:
+  profiles: local
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/ 
+      suffix: .jsp
+  datasource:
+    #driver-class-name: com.mysql.jdbc.Driver / com.mysql.cj.jdbc.Driver / net.sf.log4jdbc.sql.jdbcapi.DriverSpy #url: jdbc:mysql://localhost:3306/testdb / jdbc:log4jdbc:mysql://127.0.0.1:3306/starter?autoReconnect=true&useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    #driver-class-name: com.mysql.jdbc.Driver
+    #url: jdbc:mysql://localhost:3306/testdb?autoReconnect=true&useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    #username: testuser
+    #password: 'testuser!@#'
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@//172.17.2.26:1551/mallif
+    username: RELAY
+    password: 'Relay123$%^'    
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      minimumIdle: 10
+      maximum-pool-size: 15
+      poolName: HikariCP
+      connection-timeout: 60000
+      validation-timeout: 60000
+      data-source-properties.cachePrepStmts: true
+      data-source-properties.prepStmtCacheSize: 250
+      data-source-properties.prepStmtCacheSqlLimit: 2048
+      data-source-properties.useServerPrepStmts: true
+      data-source-properties.useLocalSessionState: true
+      data-source-properties.useLocalTransactionState: true
+      data-source-properties.rewriteBatchedStatements: true
+      data-source-properties.cacheResultSetMetadata: true
+      data-source-properties.cacheServerConfiguration: true
+      data-source-properties.elideSetAutoCommits: true
+      data-source-properties.maintainTimeStats: false
+  #jpa:
+  #  generate-ddl: false
+  #  properties.hibernate.jdbc.lob.non_contextual_creation: false
+  #jackson.property-naming-strategy: CAMELE_CASE
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB      
+  #mail:
+  #  host: smtp.gmail.com
+  #  port: 587
+  #  username: 
+  #  password: 
+  #  properties:
+  #    mail:
+  #      smtp:
+  #        auth: true
+  #        starttls:
+  #          enable: true
+  #mybatis:
+  #  config-location: classpath:mybatis-config.xml
+  #  configuration:
+  #    map-underscore-to-camel-case: true
+
+server:
+  port: 8083
+  ssl:
+    enabled: true
+    key-store: $(context-path)/../config/keystore/local/pulrelay_keystore.jks #  Key store 경로와 파일명
+    key-store-password: pulrelay  # Key store의 비밀번호
+    key-password: pulrelay # 키스토어의 마지막의 키 비밀번호
+    key-alias: pulrelay # 키 스토어 별칭
+    trust-store: $(context-path)/../config/keystore/local/pulrelay_ts.ts # Trust-Store 경로
+    trust-store-password: pulrelay # Trust-Store 비밀번호
+tomcat:
+  ajp:
+    protocol: AJP/1.3
+    port: 8084
+dbclean:
+  info:
+    enabled: false
+    backup: "3 month"
+    period: "1 minute"
+    delete: "2 month"
+    lock_wait: 3
+    tables: [
+         { "table":"test_clean1", "column":"regdate", "format":"yyyymmddhh24miss", "type":"text", "backup":"3 day", "period":"2 minute", "use":"N" },
+         { "table":"test_clean2", "column":"regdate", "format":"yyyymmddhh24miss", "type":"date", "backup":"4 day", "period":"3 minute", "use":"N" },
+         { "table":"test_restore", "column":"auth_date", "format":"yyyymmddhh24miss", "type":"date", "use":"N" },
+         { "table":"iflog", "column":"if_date", "format":"yyyymmddhh24miss", "type":"date", "use":"N" },
+         { "table":"auth_log", "column":"auth_date", "format":"yyyymmddhh24miss", "type":"date", "use":"N" },
+         { "table":"auth_meta", "column":"auth_date", "format":"yyyymmddhh24miss", "type":"date", "use":"N" },
+         { "table":"tb_custord_info", "column":"sys_dat", "format":"yyyymmddhh24miss", "type":"date", "use":"N" },
+         { "table":"tb_custord_dtl", "column":"sys_dat", "format":"yyyymmddhh24miss", "type":"date", "use":"N" },
+         { "table":"tb_ordetc_info", "column":"sys_dat", "format":"yyyymmddhh24miss", "type":"date", "use":"N" },
+         { "table":"tb_purchase_info", "column":"sys_dat", "format":"yyyymmddhh24miss", "type":"date", "use":"N" },
+         { "table":"tb_purchase_dtl", "column":"sys_dat", "format":"yyyymmddhh24miss", "type":"date", "use":"N" },
+         { "table":"ogh_inf_dsvhd_t", "column":"inf_date", "format":"yyyymmddhh24miss", "type":"date", "use":"N" },
+         { "table":"ogh_inf_dsvdt_t", "column":"inf_date", "format":"yyyymmddhh24miss", "type":"date", "use":"N" },         
+         { "table":"ogh_inf_order_t", "column":"inf_date", "format":"yyyymmddhh24miss", "type":"date", "use":"N" },
+         { "table":"ogh_inf_ordmd_t", "column":"inf_date", "format":"yyyymmddhh24miss", "type":"date", "use":"N" },
+         { "table":"ogh_inf_ordpo_t", "column":"inf_date", "format":"yyyymmddhh24miss", "type":"date", "use":"N" },
+         { "table":"ogh_inf_ordrt_t", "column":"inf_date", "format":"yyyymmddhh24miss", "type":"date", "use":"N" },
+         { "table":"ogh_scd_loanm_t", "column":"inf_date", "format":"yyyymmddhh24miss", "type":"date", "use":"N" },
+         { "table":"ogh_spo_loan1_t", "column":"inf_date", "format":"yyyymmddhh24miss", "type":"date", "use":"N" },
+         { "table":"ogh_spo_loan2_t", "column":"inf_date", "format":"yyyymmddhh24miss", "type":"date", "use":"N" },
+         { "table":"ogh_inv_ledger_sub_sum_t", "column":"inf_date", "format":"yyyymmddhh24miss", "type":"date", "use":"N" },
+         { "table":"ogh_xinvs_stock_silsa_t", "column":"inf_date", "format":"yyyymmddhh24miss", "type":"date", "use":"N" },
+         { "table":"ogh_xinvs_store_trx_if_t", "column":"inf_date", "format":"yyyymmddhh24miss", "type":"date", "use":"N" },
+         { "table":"ogh_invs_byorga_trx_if_t", "column":"inf_date", "format":"yyyymmddhh24miss", "type":"date", "use":"N" },
+         { "table":"ogh_xwms_store_trx_if_t", "column":"inf_date", "format":"yyyymmddhh24miss", "type":"date", "use":"N" },
+         { "table":"ogh_pos_rev_h_byorga_if_t", "column":"inf_date", "format":"yyyymmddhh24miss", "type":"date", "use":"N" },
+         { "table":"ogh_pos_rev_d_byorga_if_t", "column":"inf_date", "format":"yyyymmddhh24miss", "type":"date", "use":"N" },
+         { "table":"ogh_pos_rev_headers_if_t", "column":"inf_date", "format":"yyyymmddhh24miss", "type":"date", "use":"N" },
+         { "table":"ogh_pos_rev_details_if_t", "column":"inf_date", "format":"yyyymmddhh24miss", "type":"date", "use":"N" },
+         { "table":"ogh_pos_rev_ctrt_if_t", "column":"inf_date", "format":"yyyymmddhh24miss", "type":"date", "use":"N" },
+         { "table":"ogh_xarf_cancle_trx_if_t", "column":"inf_date", "format":"yyyymmddhh24miss", "type":"date", "use":"N" }
+    ]
+#systems:
+#  security:
+#    authkey: {
+#        3732c1c1-6095-4293-8fef-b62983dd8b80: { id: system1, name: 시스템1 }
+#      , 25c1e7cd-49b2-47de-85c5-096d3997da89: { id: system2, name: 시스템2 }
+#    }
+logging:
+  #path: ./logs/
+  file: ./logs/log-file
+  level:    
+    root: INFO
+    com.pulmuone.OnlineIFServer.*: DEBUG
+    org.hibernate:
+      SQL: DEBUG
+      type.descriptor.sql.BasicBinder: TRACE
+
